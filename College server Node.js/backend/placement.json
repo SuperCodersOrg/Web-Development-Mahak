@@ -1,0 +1,58 @@
+{
+  "placementRate": "85%",
+  "academicYear": "2025-2026",
+  "studentsEligible": 450,
+  "studentsPlaced": 414,
+  "companiesVisited": 85,
+  "highestPackage": "18 LPA",
+  "averagePackage": "6.5 LPA",
+  "lowestPackage": "3.2 LPA",
+
+  "topRecruiters": [
+    {
+      "name": "TCS",
+      "package": "7.2 LPA",
+      "studentsHired": 65
+    },
+    {
+      "name": "Infosys",
+      "package": "6.5 LPA",
+      "studentsHired": 58
+    },
+    {
+      "name": "Wipro",
+      "package": "5.8 LPA",
+      "studentsHired": 52
+    },
+    {
+      "name": "Accenture",
+      "package": "8.5 LPA",
+      "studentsHired": 45
+    },
+    {
+      "name": "Deloitte",
+      "package": "9.2 LPA",
+      "studentsHired": 28
+    },
+    {
+      "name": "Tech Mahindra",
+      "package": "5.5 LPA",
+      "studentsHired": 35
+    }
+  ],
+
+  "placementProcess": [
+    "Aptitude Test",
+    "Technical Interview",
+    "HR Interview",
+    "Final Selection"
+  ],
+
+  "trainingPrograms": [
+    "Aptitude Preparation",
+    "Coding Practice",
+    "Mock Interviews",
+    "Resume Building",
+    "Communication Skills"
+  ]
+}
