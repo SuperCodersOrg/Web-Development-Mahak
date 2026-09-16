@@ -2,7 +2,7 @@ const http = require('http');
 const fs = require('fs');
 
 const path = require('path');
-const e = require('express');
+// const e = require('express');
 const port = 3300;
 const server = http.createServer((req, res) => {
     let url = req.url.split('/');
