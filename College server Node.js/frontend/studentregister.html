@@ -78,7 +78,7 @@
 
         function fetchfun() {
 
-            fetch('/students-data')
+            fetch('http://localhost:3300/students-data')
                 .then(response => {
                     if (!response.ok) {
                         throw new Error("HTTP error: " + response.status);
@@ -159,7 +159,7 @@
 
             };
 
-            fetch('./students-data', {
+            fetch('http://localhost:3300/students-data', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

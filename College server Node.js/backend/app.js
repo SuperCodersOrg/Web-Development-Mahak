@@ -5,36 +5,47 @@ const path = require('path');
 // const e = require('express');
 const port = 3300;
 const server = http.createServer((req, res) => {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+
+    if (req.method === "OPTIONS") {
+        res.writeHead(200);
+        res.end();
+        return;
+    }
     let url = req.url.split('/');
     console.log(url);
 
+    // if (req.url === '/' || req.url === '/home') {
+    //     // res.end("data");
+
+    //     // let html = fs.readFileSync(
+    //     //     path.join(__dirname, '..', 'frontend/file.html'),
+    //     //     'utf8'
+    //     // );
+
+    //     // res.writeHead(200, {
+    //     //     'Content-Type': 'text/html'
+    //     // });
+
+    //     // res.end(html);
+
+
+    //     let data = JSON.parse(fs.readFileSync('home.json', 'utf8'));
+    //     res.end(JSON.stringify(data));
+    // }
     if (req.url === '/' || req.url === '/home') {
-        // res.end("data");
 
-        let html = fs.readFileSync(
-            path.join(__dirname, '..', 'frontend/file.html'),
-            'utf8'
+        let data = JSON.parse(
+            fs.readFileSync('home.json', 'utf8')
         );
 
         res.writeHead(200, {
-            'Content-Type': 'text/html'
+            'Content-Type': 'application/json'
         });
 
-        res.end(html);
-
-    }
-
-    else if (req.url === '/script.js') {
-        let js = fs.readFileSync(
-            path.join(__dirname, '..', 'frontend/script.js'),
-            'utf8'
-        );
-
-        res.writeHead(200, {
-            'Content-Type': 'application/javascript'
-        });
-
-        res.end(js);
+        res.end(JSON.stringify(data));
     }
 
     else if (req.url === '/courses' && url.length < 3) {
@@ -43,26 +54,8 @@ const server = http.createServer((req, res) => {
 
         //    console.log(JSON.parse(courseData));
 
-        let data = courseData.map((course) => {
-            return ` <div>
-            <a href = "http://localhost:3300/courses/${course.id}">${course.name}</a>
-
-        </div>
-    `;
-
-        }).join("");
-
-
-
-        res.end(`
-        <html>
-        <body>
-         <a href="http://localhost:3300/">Home</a>
-            <h1>Available Courses</h1>
-            ${data}
-        </body>
-        </html>
-`);
+        res.end(JSON.stringify(courseData));
+        
     }
 
     else if (url[1] === 'courses' && url.length >= 3) {
@@ -96,38 +89,31 @@ const server = http.createServer((req, res) => {
     }
 
     else if (req.url === '/about') {
-        const data = JSON.parse(fs.readFileSync('college.json', 'utf8'));
-        res.end(`
-            <html>
-        <body>
-                    <a href="http://localhost:3300/">Home</a>
-            <h1>${data.name}</h1>
-            <p>Established: ${data.established}</p>
-            <p>Located: ${data.location}</p>
-            <p>Total students : ${data.totalStudents}</p>
-            <p>Active batches : ${data.activeBatches}</p>
-            <p>Placements : ${data.placements}</p>
-        </body>
-    </html>
-            `)
+
+        const data = JSON.parse(
+            fs.readFileSync('college.json', 'utf8')
+        );
+
+        res.writeHead(200, {
+            'Content-Type': 'application/json'
+        });
+
+        res.end(JSON.stringify(data));
     }
 
 
     else if (req.url === '/students') {
 
+    const data = JSON.parse(
+        fs.readFileSync('students.json', 'utf8')
+    );
 
+    res.writeHead(200, {
+        'Content-Type': 'application/json'
+    });
 
-        let html = fs.readFileSync(
-            path.join(__dirname, '..', 'frontend/studentregister.html'),
-            'utf8'
-        );
-
-        res.writeHead(200, {
-            'Content-Type': 'text/html'
-        });
-
-        res.end(html);
-    }
+    res.end(JSON.stringify(data));
+}
 
     else if (req.url === '/students-data') {
         if (req.method === 'GET') {
@@ -142,25 +128,25 @@ const server = http.createServer((req, res) => {
         }
 
         else if (req.method === 'POST') {
-            
+
             let body = '';
             req.on('data', (datavalue) => {
                 body += datavalue;
-            console.log(body);
-            let file = fs.readFileSync('students.json','utf8');
+                console.log(body);
+                let file = fs.readFileSync('students.json', 'utf8');
 
-            let finalData = JSON.parse(file);
+                let finalData = JSON.parse(file);
 
-            let newStudent = JSON.parse(body);
+                let newStudent = JSON.parse(body);
 
-            finalData.students.push(newStudent);
+                finalData.students.push(newStudent);
 
-            fs.writeFileSync(
-                'students.json',
-                JSON.stringify(finalData, null, 2),
-                'utf8'
-            );
-            
+                fs.writeFileSync(
+                    'students.json',
+                    JSON.stringify(finalData, null, 2),
+                    'utf8'
+                );
+
 
             })
 
@@ -171,6 +157,16 @@ const server = http.createServer((req, res) => {
     else if (req.url === '/placement') {
 
         let data = JSON.parse(fs.readFileSync('placement.json', 'utf8'));
+
+
+
+
+
+        res.writeHead(200, {
+            'Content-Type': 'application/json'
+        });
+
+
 
         // let html = fs.readFileSync(
         //     path.join(__dirname, '..', 'frontend/file.html'),
@@ -206,137 +202,160 @@ const server = http.createServer((req, res) => {
 
 
 
-    //     `
-    //     <html>
+        //     `
+        //     <html>
 
-    //         <body>
+        //         <body>
 
-    //             <a href="http://localhost:3300/">Home</a>
+        //             <a href="http://localhost:3300/">Home</a>
 
-    //             <h1>Placement Information</h1>
+        //             <h1>Placement Information</h1>
 
-    //             <h2>Placement Statistics</h2>
+        //             <h2>Placement Statistics</h2>
 
-    //             <p><b>Placement Rate:</b> ${data.placementRate}</p>
-    //             <p><b>Academic Year:</b> ${data.academicYear}</p>
-    //             <p><b>Students Eligible:</b> ${data.studentsEligible}</p>
-    //             <p><b>Students Placed:</b> ${data.studentsPlaced}</p>
-    //             <p><b>Companies Visited:</b> ${data.companiesVisited}</p>
-    //             <p><b>Highest Package:</b> ${data.highestPackage}</p>
-    //             <p><b>Average Package:</b> ${data.averagePackage}</p>
-    //             <p><b>Lowest Package:</b> ${data.lowestPackage}</p>
+        //             <p><b>Placement Rate:</b> ${data.placementRate}</p>
+        //             <p><b>Academic Year:</b> ${data.academicYear}</p>
+        //             <p><b>Students Eligible:</b> ${data.studentsEligible}</p>
+        //             <p><b>Students Placed:</b> ${data.studentsPlaced}</p>
+        //             <p><b>Companies Visited:</b> ${data.companiesVisited}</p>
+        //             <p><b>Highest Package:</b> ${data.highestPackage}</p>
+        //             <p><b>Average Package:</b> ${data.averagePackage}</p>
+        //             <p><b>Lowest Package:</b> ${data.lowestPackage}</p>
 
-    //             <h2>Top Recruiters</h2>
+        //             <h2>Top Recruiters</h2>
 
-    //             <table border="2">
+        //             <table border="2">
 
-    //                 <thead>
-    //                     <tr>
-    //                         <th>Name</th>
-    //                         <th>Package</th>
-    //                         <th>Students Hired</th>
-    //                     </tr>
-    //                 </thead>
+        //                 <thead>
+        //                     <tr>
+        //                         <th>Name</th>
+        //                         <th>Package</th>
+        //                         <th>Students Hired</th>
+        //                     </tr>
+        //                 </thead>
 
-    //                 <tbody>
-    //                     ${recruiters}
-    //                 </tbody>
+        //                 <tbody>
+        //                     ${recruiters}
+        //                 </tbody>
 
-    //             </table>
+        //             </table>
 
-    //             <h2>Placement Process</h2>
+        //             <h2>Placement Process</h2>
 
-    //             <ol>
-    //                 ${placementprocess}
-    //             </ol>
+        //             <ol>
+        //                 ${placementprocess}
+        //             </ol>
 
-    //             <h2>Training Programs</h2>
+        //             <h2>Training Programs</h2>
 
-    //             <ul>
-    //                 ${trainingPrograms}
-    //             </ul>
+        //             <ul>
+        //                 ${trainingPrograms}
+        //             </ul>
 
-    //         </body>
+        //         </body>
 
-    //     </html>
-    // `
+        //     </html>
+        // `
     }
 
     else if (req.url === '/contact') {
+        const data = JSON.parse(
+            fs.readFileSync('contact.json', 'utf8')
+        );
 
-        res.end(`
-        <html>
-            <body>
-                        <a href="http://localhost:3300/">Home</a>
-                <h1>Contact Us</h1>
+        res.writeHead(200, {
+            'Content-Type': 'application/json'
+        });
 
-                <h3>College Name</h3>
-                <p>ABC College </p>
+        res.end(JSON.stringify(data));
+        //     res.end(`
+        //     <html>
+        //         <body>
+        //                     <a href="http://localhost:3300/">Home</a>
+        //             <h1>Contact Us</h1>
 
-                <h3>Address</h3>
-                <p>123 College Road, Delhi, India</p>
+        //             <h3>College Name</h3>
+        //             <p>ABC College </p>
 
-                <h3>Phone</h3>
-                <p>+91 9876543210</p>
+        //             <h3>Address</h3>
+        //             <p>123 College Road, Delhi, India</p>
 
-                <h3>Email</h3>
-                <p>info@abccollege.com</p>
-            </body>
-        </html>
-    `);
+        //             <h3>Phone</h3>
+        //             <p>+91 9876543210</p>
+
+        //             <h3>Email</h3>
+        //             <p>info@abccollege.com</p>
+        //         </body>
+        //     </html>
+        // `);
 
     }
+
+    // else if (req.url === '/facilities') {
+
+    //     let data = JSON.parse(
+    //         fs.readFileSync('facilities.json', 'utf8')
+    //     );
+
+        
+
+    //     let facilities = data.map((facility) => {
+
+    //         let facilityList = facility.facilities.map((item) => {
+    //             return `<li>${item}</li>`;
+    //         }).join("");
+
+    //         return `
+    //         <div>
+            
+    //             <h2>${facility.name}</h2>
+
+    //             <p><b>ID:</b> ${facility.id}</p>
+
+    //             <p><b>Description:</b> ${facility.description}</p>
+
+    //             <p><b>Capacity:</b> ${facility.capacity}</p>
+
+    //             <p><b>Timings:</b> ${facility.timings}</p>
+
+    //             <h4>Facilities:</h4>
+    //             <ul>
+    //                 ${facilityList}
+    //             </ul>
+    //         </div>
+
+    //         <hr>
+    //     `;
+
+    //     }).join("");
+
+
+
+    //     res.end(`
+    //     <html>
+    //         <body>
+    //         <a href="http://localhost:3300/">Home</a>
+    //             <h1>College Facilities</h1>
+
+    //             ${facilities}
+
+    //         </body>
+    //     </html>
+    // `);
+    // }
 
     else if (req.url === '/facilities') {
 
-        let data = JSON.parse(
-            fs.readFileSync('facilities.json', 'utf8')
-        );
+    const data = JSON.parse(
+        fs.readFileSync('facilities.json', 'utf8')
+    );
 
-        let facilities = data.map((facility) => {
+    res.writeHead(200, {
+        'Content-Type': 'application/json'
+    });
 
-            let facilityList = facility.facilities.map((item) => {
-                return `<li>${item}</li>`;
-            }).join("");
-
-            return `
-            <div>
-            
-                <h2>${facility.name}</h2>
-
-                <p><b>ID:</b> ${facility.id}</p>
-
-                <p><b>Description:</b> ${facility.description}</p>
-
-                <p><b>Capacity:</b> ${facility.capacity}</p>
-
-                <p><b>Timings:</b> ${facility.timings}</p>
-
-                <h4>Facilities:</h4>
-                <ul>
-                    ${facilityList}
-                </ul>
-            </div>
-
-            <hr>
-        `;
-
-        }).join("");
-
-
-
-        res.end(`
-        <html>
-            <body>
-            <a href="http://localhost:3300/">Home</a>
-                <h1>College Facilities</h1>
-
-                ${facilities}
-
-            </body>
-        </html>
-    `);
-    }
+    res.end(JSON.stringify(data));
+}
 
     else {
 
