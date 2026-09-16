@@ -8,99 +8,33 @@ const server = http.createServer((req, res) => {
     let url = req.url.split('/');
     console.log(url);
 
-    if (req.url === '/' || req.url === '') {
-        res.end(`
-        <!DOCTYPE html>
-<html lang="en">
+    if (req.url === '/' || req.url === '/home') {
+        // res.end("data");
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="style.css">
-</head>
+        let html = fs.readFileSync(
+            path.join(__dirname, '..', 'frontend/file.html'),
+            'utf8'
+        );
 
-<body>
-    <div>
-        <div>
-            <h1>ABC college</h1>
-        </div>
-        <div>
-            Welcome to ABC College
-            <br>
-            Empowering Students for a Better Future
-            <br>
+        res.writeHead(200, {
+            'Content-Type': 'text/html'
+        });
 
-        </div>
-        <nav>
-            <a href="http://localhost:3300/">Home</a>
-            <a href="http://localhost:3300/about">About</a>
-            <a href="http://localhost:3300/courses">Courses</a>
-            <a href="http://localhost:3300/students">Students details</a>
-            <a href="http://localhost:3300/contact">Contact Details</a>
-            <a href="http://localhost:3300/facilities">Facilities</a>
-            <a href="http://localhost:3300/placement">Placement</a>
+        res.end(html);
 
-        </nav>
-        <br>
-        <div>
-            <!-- <a href="http://localhost:3300/about">
-                College Highlights
-            </a> -->
-            <div>
-                <b>
-                    College Highlights
-                </b>
-            </div>
-            <div>
-                <br>
-                1200+ : Students
-            </div><br>
-            <div>
-                4 : Courses
-            </div><br>
-            <div>
-                85%:Placement
-            </div>
-        </div>
-        <br>
-        <div>
-            <a href="http://localhost:3300/courses"><b>Our Courses</b> </a>
-            <!-- <a href="courses.html">Our courses</a> -->
-            <!-- <div>
-                <b>
-                    Our courses
-                </b>
-             </div> -->
-            <div><br> BCA </div>
-            <div>
-                B.Tech CSE
-            </div>
-            <div>B.Tech AI & ML</div>
-            <div>BBA</div>
-        </div>
-        <div>
-            <a href="http://localhost:3300/placements">Placement Highlights</a>
-            <div> 85% Placement Rate | ₹12 LPA Highest</div>
-        </div>
-        <div>
-            <a href="/contact"> Contact Us</a>
-            <div>Panipat, Haryana</div>
-            <div> +91 98765 43210</div>
-            <div>abc@college.edu</div>
-        </div>
-    </div>
+    }
 
+    else if (req.url === '/script.js') {
+        let js = fs.readFileSync(
+            path.join(__dirname, '..', 'frontend/script.js'),
+            'utf8'
+        );
 
-    <script src="script.js"></script>
-</body>
+        res.writeHead(200, {
+            'Content-Type': 'application/javascript'
+        });
 
-
-
-
-
-</html>
-        `)
+        res.end(js);
     }
 
     else if (req.url === '/courses' && url.length < 3) {
@@ -177,11 +111,11 @@ const server = http.createServer((req, res) => {
     </html>
             `)
     }
- 
+
 
     else if (req.url === '/students') {
 
-       
+
 
         let html = fs.readFileSync(
             path.join(__dirname, '..', 'frontend/studentregister.html'),
@@ -207,91 +141,125 @@ const server = http.createServer((req, res) => {
             res.end(data);
         }
 
-        // else if (req.method === 'POST') {
-        //    let jsondata = req.data;
-        //    console.log(jsondata);
-        //     let data = fs.readFileSync('students.JSON', 'utf8');
+        else if (req.method === 'POST') {
+            
+            let body = '';
+            req.on('data', (datavalue) => {
+                body += datavalue;
+            console.log(body);
+            let file = fs.readFileSync('students.json','utf8');
 
-        //     res.end(data);
-        // }
+            let finalData = JSON.parse(file);
+
+            let newStudent = JSON.parse(body);
+
+            finalData.students.push(newStudent);
+
+            fs.writeFileSync(
+                'students.json',
+                JSON.stringify(finalData, null, 2),
+                'utf8'
+            );
+            
+
+            })
+
+            res.end("student added");
+        }
     }
 
     else if (req.url === '/placement') {
 
         let data = JSON.parse(fs.readFileSync('placement.json', 'utf8'));
 
-        let recruiters = data.topRecruiters.map((rec) => {
-            return `
-            <tr>
-                <td>${rec.name}</td>
-                <td>${rec.package}</td>
-                <td>${rec.studentsHired}</td>
-            </tr>
-        `;
-        }).join("");
+        // let html = fs.readFileSync(
+        //     path.join(__dirname, '..', 'frontend/file.html'),
+        //     'utf8'
+        // );
 
-        let placementprocess = data.placementProcess.map((process) => {
-            return `<li>${process}</li>`;
-        }).join("");
+        // res.writeHead(200, {
+        //     'Content-Type': 'text/html'
+        // });
 
-        let trainingPrograms = data.trainingPrograms.map((training) => {
-            return `<li>${training}</li>`;
-        }).join("");
+        // res.end(html);
 
-        res.end(`
-        <html>
+        // let recruiters = data.topRecruiters.map((rec) => {
+        //     return `
+        //     <tr>
+        //         <td>${rec.name}</td>
+        //         <td>${rec.package}</td>
+        //         <td>${rec.studentsHired}</td>
+        //     </tr>
+        // `;
+        // }).join("");
 
-            <body>
+        // let placementprocess = data.placementProcess.map((process) => {
+        //     return `<li>${process}</li>`;
+        // }).join("");
 
-                <a href="http://localhost:3300/">Home</a>
+        // let trainingPrograms = data.trainingPrograms.map((training) => {
+        //     return `<li>${training}</li>`;
+        // }).join("");
 
-                <h1>Placement Information</h1>
+        res.end(JSON.stringify(data));
 
-                <h2>Placement Statistics</h2>
 
-                <p><b>Placement Rate:</b> ${data.placementRate}</p>
-                <p><b>Academic Year:</b> ${data.academicYear}</p>
-                <p><b>Students Eligible:</b> ${data.studentsEligible}</p>
-                <p><b>Students Placed:</b> ${data.studentsPlaced}</p>
-                <p><b>Companies Visited:</b> ${data.companiesVisited}</p>
-                <p><b>Highest Package:</b> ${data.highestPackage}</p>
-                <p><b>Average Package:</b> ${data.averagePackage}</p>
-                <p><b>Lowest Package:</b> ${data.lowestPackage}</p>
 
-                <h2>Top Recruiters</h2>
 
-                <table border="2">
+    //     `
+    //     <html>
 
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Package</th>
-                            <th>Students Hired</th>
-                        </tr>
-                    </thead>
+    //         <body>
 
-                    <tbody>
-                        ${recruiters}
-                    </tbody>
+    //             <a href="http://localhost:3300/">Home</a>
 
-                </table>
+    //             <h1>Placement Information</h1>
 
-                <h2>Placement Process</h2>
+    //             <h2>Placement Statistics</h2>
 
-                <ol>
-                    ${placementprocess}
-                </ol>
+    //             <p><b>Placement Rate:</b> ${data.placementRate}</p>
+    //             <p><b>Academic Year:</b> ${data.academicYear}</p>
+    //             <p><b>Students Eligible:</b> ${data.studentsEligible}</p>
+    //             <p><b>Students Placed:</b> ${data.studentsPlaced}</p>
+    //             <p><b>Companies Visited:</b> ${data.companiesVisited}</p>
+    //             <p><b>Highest Package:</b> ${data.highestPackage}</p>
+    //             <p><b>Average Package:</b> ${data.averagePackage}</p>
+    //             <p><b>Lowest Package:</b> ${data.lowestPackage}</p>
 
-                <h2>Training Programs</h2>
+    //             <h2>Top Recruiters</h2>
 
-                <ul>
-                    ${trainingPrograms}
-                </ul>
+    //             <table border="2">
 
-            </body>
+    //                 <thead>
+    //                     <tr>
+    //                         <th>Name</th>
+    //                         <th>Package</th>
+    //                         <th>Students Hired</th>
+    //                     </tr>
+    //                 </thead>
 
-        </html>
-    `);
+    //                 <tbody>
+    //                     ${recruiters}
+    //                 </tbody>
+
+    //             </table>
+
+    //             <h2>Placement Process</h2>
+
+    //             <ol>
+    //                 ${placementprocess}
+    //             </ol>
+
+    //             <h2>Training Programs</h2>
+
+    //             <ul>
+    //                 ${trainingPrograms}
+    //             </ul>
+
+    //         </body>
+
+    //     </html>
+    // `
     }
 
     else if (req.url === '/contact') {
