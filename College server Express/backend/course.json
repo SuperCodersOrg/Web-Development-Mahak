@@ -1,0 +1,36 @@
+[
+   
+    {
+      "id": "bca",
+      "name": "BCA",
+      "duration": "3 Years",
+      "seats": 120,
+      "eligibility": "12th Pass",
+      "department": "Computer Applications"
+    },
+    {
+      "id": "btech",
+      "name": "B.Tech CSE",
+      "duration": "4 Years",
+      "seats": 180,
+      "eligibility": "12th with PCM",
+      "department": "Computer Science"
+    },
+    {
+      "id": "aiml",
+      "name": "B.Tech AI & ML",
+      "duration": "4 Years",
+      "seats": 120,
+      "eligibility": "12th with PCM",
+      "department": "Artificial Intelligence"
+    },
+    {
+      "id": "bba",
+      "name": "BBA",
+      "duration": "3 Years",
+      "seats": 100,
+      "eligibility": "12th Pass",
+      "department": "Management"
+    }
+  
+]

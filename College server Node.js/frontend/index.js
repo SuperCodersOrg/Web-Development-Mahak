@@ -68,50 +68,29 @@ function aboutdata(data) {
 
 function coursedata(data) {
 
-    let courses = data.map((course) => {
+    mainframe.innerHTML =
+        `
+        <br>
+        <div id="coursesdata">
+    <a href="#"id="bca">BCA</a><br>
+    <a href="#"id="btech">B.Tech CSE</a><br>
+    <a href="#"id="aiml">B.Tech AI & ML</a><br>
+    <a href="#"id="bba">BBA</a><br>
+    </div>`
 
-        return `
-            <div>
-                <h2>${course.name}</h2>
+}
 
-                <p>
-                    <b>Course ID:</b>
-                    ${course.id}
-                </p>
+function displaycourse(course){
 
-                <p>
-                    <b>Duration:</b>
-                    ${course.duration}
-                </p>
-
-                <p>
-                    <b>Seats:</b>
-                    ${course.seats}
-                </p>
-
-                <p>
-                    <b>Eligibility:</b>
-                    ${course.eligibility}
-                </p>
-
-                <p>
-                    <b>Department:</b>
-                    ${course.department}
-                </p>
-
-                <hr>
-            </div>
-        `;
-
-    }).join("");
-
-    mainframe.innerHTML = `
-        <div>
-            <h1>Available Courses</h1>
-
-            ${courses}
-        </div>
-    `;
+    mainframe.innerHTML =
+                    ` <div>
+            <h2>${course.name}</h2>
+             <p>${course.id}</p>
+             <p>${course.duration}</p>
+             <p>${course.seats}</p>
+             <p>${course.eligibility}</p>
+             <p>${course.department}</p>
+         </div>`
 }
 
 function placementdata(data) {
@@ -378,42 +357,42 @@ function studentsdata(data) {
             <tr>
                 <td>Student ID</td>
                 <td>
-                    <input id="student_id" type="text">
+                    <input id="id" type="text">
                 </td>
             </tr>
 
             <tr>
                 <td>Name</td>
                 <td>
-                    <input id="student_name" type="text">
+                    <input id="name" type="text">
                 </td>
             </tr>
 
             <tr>
                 <td>Email</td>
                 <td>
-                    <input id="student_email" type="email">
+                    <input id="email" type="email">
                 </td>
             </tr>
 
             <tr>
                 <td>Phone</td>
                 <td>
-                    <input id="student_phone" type="text">
+                    <input id="phone" type="text">
                 </td>
             </tr>
 
             <tr>
                 <td>Course</td>
                 <td>
-                    <input id="student_course" type="text">
+                    <input id="course" type="text">
                 </td>
             </tr>
 
             <tr>
                 <td>Gender</td>
                 <td>
-                    <input id="student_gender" type="text">
+                    <input id="gender" type="text">
                 </td>
             </tr>
 
@@ -430,7 +409,7 @@ function studentsdata(data) {
     `;
 
 
-    let submit = document.getElementById('submit');
+    let submit = document.getElementById('submitStudent');
     let studentid = document.getElementById('id');
     let name = document.getElementById('name');
     let email = document.getElementById('email');
@@ -474,7 +453,7 @@ function studentsdata(data) {
 
 }
 
-navigationbar.addEventListener("click", (e) => {
+document.addEventListener("click", (e) => {
 
     e.preventDefault();
 
@@ -482,49 +461,78 @@ navigationbar.addEventListener("click", (e) => {
 
     console.log("Clicked:", id);
 
-    fetch(`http://localhost:3300/${id}`)
-        .then((res) => {
+    if (id == "bca" || id == "btech" || id == "aiml" || id == "bba") {
+        fetch(`http://localhost:3300/courses/${id}`)
+            .then((res) => {
+                console.log("Status:", res.status);
 
-            console.log("Status:", res.status);
+                if (!res.ok) {
+                    throw new Error("Server error: " + res.status);
+                }
 
-            if (!res.ok) {
-                throw new Error("Server error: " + res.status);
-            }
+                return res.json();
+            })
+            .then((data) => {
+displaycourse(data);
+        //         mainframe.innerHTML =
+        //             ` <div>
+        //     <h2>${course.name}</h2>
+        //      <p>${course.id}</p>
+        //      <p>${course.duration}</p>
+        //      <p>${course.seats}</p>
+        //      <p>${course.eligibility}</p>
+        //      <p>${course.department}</p>
+        //  </div>`
+            })
 
-            return res.json();
-        })
-        .then((data) => {
+    }
+    else {
+        fetch(`http://localhost:3300/${id}`)
+            .then((res) => {
 
-            console.log("Data:", data);
+                console.log("Status:", res.status);
 
-            if (id === "home") {
-                homedata(data);
-            }
-            else if (id === "about") {
-                aboutdata(data);
-            }
+                if (!res.ok) {
+                    throw new Error("Server error: " + res.status);
+                }
 
-            else if (id === "courses") {
-                coursedata(data);
-            }
+                return res.json();
+            })
+            .then((data) => {
 
-            else if (id == "placement") {
-                placementdata(data);
-            }
+                console.log("Data:", data);
 
-            else if (id == "contact") {
-                contactdata(data);
-            }
-            else if (id == "facilities") {
-                facilitydata(data);
-            }
-            else if (id == "students") {
-                studentsdata(data);
-            }
+                if (id === "home") {
+                    homedata(data);
+                }
+                else if (id === "about") {
+                    aboutdata(data);
+                }
 
-        })
-        .catch((error) => {
-            console.error("Error:", error);
-        });
+                else if (id === "courses") {
+                    coursedata(data);
+                }
+
+                else if (id == "placement") {
+                    placementdata(data);
+                }
+
+                else if (id == "contact") {
+                    contactdata(data);
+                }
+                else if (id == "facilities") {
+                    facilitydata(data);
+                }
+                else if (id == "students") {
+                    studentsdata(data);
+                }
+
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+            });
+
+    }
+
 
 });

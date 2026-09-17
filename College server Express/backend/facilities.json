@@ -1,0 +1,82 @@
+[
+  {
+    "id": "library",
+    "name": "Central Library",
+    "description": "A well-equipped library with books, journals, research papers and digital resources.",
+    "capacity": 300,
+    "timings": "8:00 AM - 8:00 PM",
+    "facilities": [
+      "Wi-Fi",
+      "Digital Library",
+      "Computer Section",
+      "Reading Room"
+    ]
+  },
+  {
+    "id": "computer-lab",
+    "name": "Computer Lab",
+    "description": "Modern computer labs with high-performance systems and internet connectivity.",
+    "capacity": 120,
+    "timings": "9:00 AM - 6:00 PM",
+    "facilities": [
+      "High-Speed Internet",
+      "Latest Software",
+      "Projectors",
+      "Air Conditioning"
+    ]
+  },
+  {
+    "id": "hostel",
+    "name": "Boys and Girls Hostel",
+    "description": "Separate hostel facilities with furnished rooms and essential amenities.",
+    "capacity": 500,
+    "timings": "24 Hours",
+    "facilities": [
+      "Wi-Fi",
+      "Mess",
+      "Laundry",
+      "Security",
+      "Common Room"
+    ]
+  },
+  {
+    "id": "sports",
+    "name": "Sports Complex",
+    "description": "Sports facilities for indoor and outdoor games and physical activities.",
+    "capacity": 200,
+    "timings": "6:00 AM - 8:00 PM",
+    "facilities": [
+      "Cricket Ground",
+      "Basketball Court",
+      "Badminton Court",
+      "Gym",
+      "Table Tennis"
+    ]
+  },
+  {
+    "id": "cafeteria",
+    "name": "College Cafeteria",
+    "description": "Spacious cafeteria offering affordable meals, snacks and beverages.",
+    "capacity": 250,
+    "timings": "8:00 AM - 7:00 PM",
+    "facilities": [
+      "Vegetarian Food",
+      "Snacks",
+      "Beverages",
+      "Seating Area"
+    ]
+  },
+  {
+    "id": "auditorium",
+    "name": "Main Auditorium",
+    "description": "Modern auditorium for seminars, cultural events, workshops and conferences.",
+    "capacity": 800,
+    "timings": "9:00 AM - 8:00 PM",
+    "facilities": [
+      "Projector",
+      "Sound System",
+      "Stage",
+      "Air Conditioning"
+    ]
+  }
+]

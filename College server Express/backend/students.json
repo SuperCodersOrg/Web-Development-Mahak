@@ -1,0 +1,72 @@
+{
+  
+  "students": [
+    {
+      "student_id": "001",
+      "name": "Rahul Sharma",
+      "email": "rahul.sharma@example.com",
+      "phone": "+91-9876543210",
+      "course": "BCA",
+      "batch": "2024-2027",
+      "semester": 5,
+      "year": 3,
+      "gender": "Male"
+    },
+    {
+      "student_id": "002",
+      "name": "Priya Verma",
+      "email": "priya.verma@example.com",
+      "phone": "+91-9876543211",
+      "course": "BCA",
+      "batch": "2025-2028",
+      "semester": 3,
+      "year": 2,
+      "gender": "Female"
+    },
+    {
+      "student_id": "003",
+      "name": "Aman Kumar",
+      "email": "aman.kumar@example.com",
+      "phone": "+91-9876543212",
+      "course": "B.Tech",
+      "specialization": "Computer Science",
+      "batch": "2023-2027",
+      "semester": 7,
+      "year": 4,
+      "gender": "Male"
+    },
+    {
+      "student_id": "004",
+      "name": "Neha Singh",
+      "email": "neha.singh@example.com",
+      "phone": "+91-9876543213",
+      "course": "B.Tech",
+      "batch": "2024-2028",
+      "semester": 5,
+      "year": 3,
+      "gender": "Female"
+    },
+    {
+      "student_id": "005",
+      "name": "Vikas Yadav",
+      "email": "vikas.yadav@example.com",
+      "phone": "+91-9876543214",
+      "course": "BCA",
+      "batch": "2023-2026",
+      "semester": 6,
+      "year": 3,
+      "gender": "Male"
+    }
+  ],
+  "summary": {
+    "total_students": 5,
+    "bca_students": 3,
+    "btech_students": 2,
+    "active_batches": [
+      "2023-2027",
+      "2024-2027",
+      "2024-2028",
+      "2025-2028"
+    ]
+  }
+}
