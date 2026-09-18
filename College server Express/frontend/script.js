@@ -80,10 +80,10 @@ function coursedata(data) {
 
 }
 
-function displaycourse(course){
+function displaycourse(course) {
 
     mainframe.innerHTML =
-                    ` <div>
+        ` <div>
             <h2>${course.name}</h2>
              <p>${course.id}</p>
              <p>${course.duration}</p>
@@ -399,7 +399,7 @@ function studentsdata(data) {
             <tr>
                 <td></td>
                 <td>
-                    <button id="submitStudent">
+                    <button id="submitStudent" type="button">
                         Submit
                     </button>
                 </td>
@@ -451,6 +451,7 @@ function studentsdata(data) {
             })
     })
 
+
 }
 
 document.addEventListener("click", (e) => {
@@ -460,82 +461,81 @@ document.addEventListener("click", (e) => {
     const id = e.target.id;
 
     console.log("Clicked:", id);
+    if (id != 'submitStudent') {
 
-    if (id == "bca" || id == "btech" || id == "aiml" || id == "bba") {
-        fetch(`http://localhost:3300/courses/${id}`)
-            .then((res) => {
-                console.log("Status:", res.status);
+        if (id == "bca" || id == "btech" || id == "aiml" || id == "bba") {
+            fetch(`http://localhost:3300/courses/${id}`)
+                .then((res) => {
+                    console.log("Status:", res.status);
 
-                if (!res.ok) {
-                    throw new Error("Server error: " + res.status);
-                }
+                    if (!res.ok) {
+                        throw new Error("Server error: " + res.status);
+                    }
 
-                return res.json();
-            })
-            .then((data) => {
-displaycourse(data);
-        //         mainframe.innerHTML =
-        //             ` <div>
-        //     <h2>${course.name}</h2>
-        //      <p>${course.id}</p>
-        //      <p>${course.duration}</p>
-        //      <p>${course.seats}</p>
-        //      <p>${course.eligibility}</p>
-        //      <p>${course.department}</p>
-        //  </div>`
-            })
+                    return res.json();
+                })
+                .then((data) => {
+                    displaycourse(data);
+                    //         mainframe.innerHTML =
+                    //             ` <div>
+                    //     <h2>${course.name}</h2>
+                    //      <p>${course.id}</p>
+                    //      <p>${course.duration}</p>
+                    //      <p>${course.seats}</p>
+                    //      <p>${course.eligibility}</p>
+                    //      <p>${course.department}</p>
+                    //  </div>`
+                })
 
-    }
-    else {
-        if(e.target.id == "submitStudent"){
-            
         }
-        fetch(`http://localhost:3300/${id}`)
-            .then((res) => {
+        else {
+            
+            fetch(`http://localhost:3300/${id}`)
+                .then((res) => {
 
-                console.log("Status:", res.status);
+                    console.log("Status:", res.status);
 
-                if (!res.ok) {
-                    throw new Error("Server error: " + res.status);
-                }
+                    if (!res.ok) {
+                        throw new Error("Server error: " + res.status);
+                    }
 
-                return res.json();
-            })
-            .then((data) => {
+                    return res.json();
+                })
+                .then((data) => {
 
-                console.log("Data:", data);
+                    console.log("Data:", data);
 
-                if (id === "home") {
-                    homedata(data);
-                }
-                else if (id === "about") {
-                    aboutdata(data);
-                }
+                    if (id === "home") {
+                        homedata(data);
+                    }
+                    else if (id === "about") {
+                        aboutdata(data);
+                    }
 
-                else if (id === "courses") {
-                    coursedata(data);
-                }
+                    else if (id === "courses") {
+                        coursedata(data);
+                    }
 
-                else if (id == "placement") {
-                    placementdata(data);
-                }
+                    else if (id == "placement") {
+                        placementdata(data);
+                    }
 
-                else if (id == "contact") {
-                    contactdata(data);
-                }
-                else if (id == "facilities") {
-                    facilitydata(data);
-                }
-                else if (id == "students") {
-                    studentsdata(data);
-                }
+                    else if (id == "contact") {
+                        contactdata(data);
+                    }
+                    else if (id == "facilities") {
+                        facilitydata(data);
+                    }
+                    else if (id == "students") {
+                        studentsdata(data);
+                    }
 
-            })
-            .catch((error) => {
-                console.error("Error:", error);
-            });
+                })
+                .catch((error) => {
+                    console.error("Error:", error);
+                });
 
+        }
     }
-
 
 });
