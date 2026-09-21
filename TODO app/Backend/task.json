@@ -1,0 +1,42 @@
+[
+  {
+    "id": 123,
+    "title": "Study",
+    "desc": "C programming and js work",
+    "dateString": "9/18/2026, 1:50:00 AM",
+    "isdeleted": false,
+    "completed": false
+  },
+  {
+    "id": 1789756296679,
+    "title": "Js",
+    "desc": "Complete express server",
+    "dateString": "19/9/2026, 12:01:36 am",
+    "isdeleted": true,
+    "completed": true
+  },
+  {
+    "id": 1789808862189,
+    "title": "Task 1",
+    "desc": "this is a task and edited",
+    "dateString": "19/9/2026, 2:37:42 pm",
+    "isdeleted": false,
+    "completed": true
+  },
+  {
+    "id": 1789808882137,
+    "title": "Task 2",
+    "desc": "this is task2 and added",
+    "dateString": "19/9/2026, 2:38:02 pm",
+    "isdeleted": true,
+    "completed": false
+  },
+  {
+    "id": 1789886807254,
+    "title": "task 2",
+    "desc": "this is a task and i have edited it",
+    "dateString": "20/9/2026, 12:16:47 pm",
+    "isdeleted": true,
+    "completed": false
+  }
+]
