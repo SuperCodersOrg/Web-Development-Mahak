@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= quiz.title %></title>
+</head>
+<body>
+
+    <h1>
+        <%= quiz.title %>
+    </h1>
+
+    <p>
+        Subject: <%= quiz.subject %>
+    </p>
+
+    <p>
+        Difficulty: <%= quiz.difficulty %>
+    </p>
+
+    <h2>
+        Time Left:
+        <span id="timer">
+            <%= quiz.durationMinutes %>:00
+        </span>
+    </h2>
+
+    <hr>
+
+    <h2>
+        Question <%= index + 1 %>
+        / <%= quiz.questions.length %>
+    </h2>
+
+    <p>
+        <%= question.question %>
+    </p>
+
+    <form action="/quiz/<%= quiz.id %>/submit" method="POST">
+
+        <input
+            type="hidden"
+            name="index"
+            value="<%= index %>"
+        >
+
+        <div>
+            <input
+                type="radio"
+                name="answer"
+                value="0"
+                id="option0"
+            >
+
+            <label for="option0">
+                <%= question.options[0] %>
+            </label>
+        </div>
+
+        <br>
+
+        <div>
+            <input
+                type="radio"
+                name="answer"
+                value="1"
+                id="option1"
+            >
+
+            <label for="option1">
+                <%= question.options[1] %>
+            </label>
+        </div>
+
+        <br>
+
+        <div>
+            <input
+                type="radio"
+                name="answer"
+                value="2"
+                id="option2"
+            >
+
+            <label for="option2">
+                <%= question.options[2] %>
+            </label>
+        </div>
+
+        <br>
+
+        <div>
+            <input
+                type="radio"
+                name="answer"
+                value="3"
+                id="option3"
+            >
+
+            <label for="option3">
+                <%= question.options[3] %>
+            </label>
+        </div>
+
+        <br>
+
+        <button type="submit">
+            Submit
+        </button>
+
+    </form>
+
+</body>
+</html>
