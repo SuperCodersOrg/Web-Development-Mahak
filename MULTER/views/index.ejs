@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <form action="/profile" method="post" enctype="multipart/form-data">
+        <input type="text" name="username">
+        <input type="file" name="imageFile"><br><br>
+        <input type="file" name="newfiles" multiple><br><br>
+        <button type="submit">Submit Your Data!</button>
+    </form>
+
+    <% if (uploadedfile) { %>
+        <div>
+            <img src="/userFiles/<%= uploadedfile %>" 
+                 alt="This is an image you have selected">
+        </div>
+    <% } %>
+
+</body>
+</html>
