@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Reset Password</title>
+</head>
+<body>
+  <h2>Reset Your Password</h2>
+  <% if (error) { %>
+  <p><%= error %></p>
+<% } %>
+
+<% if (username) { %>
+  <form action="/reset/<%= token %>" method="POST">
+    <input type="hidden" name="username" value="<%= username %>">
+    <label for="password">Enter new password:</label><br>
+    <input type="password" id="password" name="password" required><br><br>
+    <button type="submit">Reset Password</button>
+  </form>
+<% } %>
+
+</body>
+</html>

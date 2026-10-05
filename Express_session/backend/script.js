@@ -5,10 +5,12 @@ const session = require('express-session');
 const authrouts = require("./routes/auth");
 const studentroute = require("./routes/studentroute");
 const teacherroute = require("./routes/teacherroute");
+const forgetPassword = require("./routes/forget_password");
 
 const app = express();
 const port = 3300;
 
+app.set('view engine', 'ejs');
 app.use(express.urlencoded({extended:true}));
 
 app.use(express.json());
@@ -32,10 +34,8 @@ app.get('/',(req,res)=>{
 app.use(authrouts);
 app.use('/students',studentroute);
 app.use('/teacher',teacherroute);
+app.use(forgetPassword);
 
-// app.use((req,res)=>{
-//     res.status(200).redirect("./signin.html");
-// })
 app.listen(port,()=>{
     console.log("Server running at port : ",port);
 })

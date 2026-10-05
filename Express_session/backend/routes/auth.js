@@ -1,59 +1,57 @@
 const express = require('express');
 const path = require('path');
 const router = express.Router();
-
-const user = {
-    student1: { password: "1234", role: 'student' },
-    teacher1: { password: "4321", role: 'teacher' }
-};
+const fs = require('fs');
+const crypto = require('crypto');
 
 router.post('/signin', (req, res) => {
-    const { username, password, role } = req.body;
+    let { username, password, role } = req.body;
 
-    if(!username || !password || !role){
+    if (!username || !password || !role) {
         return res.send("Please enter all fields");
     }
-    if (user[username]) {
-       res.redirect("./signin.html");
+
+    const users = JSON.parse(fs.readFileSync(path.join(__dirname, '../data/users.json')));
+
+    if (users[username]) {
+        return res.redirect("./login.html");
     }
 
-    user[username] = {
-      
-        password,
-        role
-    };
+    let pass = crypto.randomBytes(20).toString('hex');
+    password = pass;
+    users[username] = { password, role };
 
-    req.session.user = {
-        username,
-        role
-    };
+    fs.writeFileSync(path.join(__dirname, '../data/users.json'), JSON.stringify(users, null, 2));
 
-    if (role == "student") {
-        res.redirect("./studenthome.html")
+    req.session.user = { username, role };
+
+    if (role === "student") {
+        res.redirect("./studenthome.html");
     } else {
         res.redirect("./teacherhome.html");
     }
 });
 
 router.post('/login', (req, res) => {
-    const { username, password ,role} = req.body;
-    const users = user[username];
+    let { username, password } = req.body;
+    const users = JSON.parse(fs.readFileSync(path.join(__dirname, '../data/users.json')));
+    const user = users[username];
+    let pass = crypto.randomBytes(20).toString('hex');
 
-    if (users && users.password == password) {
-        req.session.user = {
-            username,
-            role: users.role
-        };
+    password = pass;
+    user.password = password;
+    if (user && user.password === password) {
+        req.session.user = { username, role: user.role };
 
-        if (users.role == "student") {
-            res.redirect("./studenthome.html");
+        if (user.role === "student") {
+            console.log("Student logged in successfully");
+           return res.redirect("./studenthome.html");
         } else {
-            res.redirect("./teacherhome.html");
-
+          return res.redirect("./teacherhome.html");
         }
     } else {
-            res.redirect("./signin.html");
-
+        console.log("Invalid username or password");
+        return res.redirect("./signin.html");
     }
 });
 
