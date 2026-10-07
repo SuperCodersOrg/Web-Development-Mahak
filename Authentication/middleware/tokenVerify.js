@@ -12,7 +12,6 @@ function verifyToken(req, res, next) {
     try {
         const data = jwt.verify(token, SecretKey);
         req.username = data.username;
-        ///////////
        return next();
     } catch (err) {
         return res.status(401).send('Unauthorized');
