@@ -1,0 +1,20 @@
+{
+  "Mahak_Singla": {
+    "password": "18511ff4743afe7e85d22ff57e261fe899a53d27",
+    "role": "student",
+    "resetToken": "71ed3c6a15e2922ffa6705737dd18b472f2af9c4",
+    "resetTokenExpiry": 1791551132495
+  },
+  "mahak_singla": {
+    "password": "d9d9b43f2a38a6cb71faf1e8256be88e84feaa05",
+    "role": "student"
+  },
+  "vanshika": {
+    "password": "e3c9a0daa4cca23a607280f5b6db45a450de5a6e",
+    "role": "student"
+  },
+  "prachi": {
+    "password": "03702a0068d508bf39a66bb90562a7bc353324ca",
+    "role": "student"
+  }
+}
