@@ -4,8 +4,12 @@ const app = express();
 const port = 3300;
 const auth = require('./routes/auth.js');
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json())
 
 app.set('view engine', 'ejs');
+app.get('/',(req,res)=>{
+    res.render('home');
+})
 app.use(auth);
 
 app.listen(port, () => {

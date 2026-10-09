@@ -1,7 +1,12 @@
 [
   {
-    "username": "Mahak_Singla",
-    "password": "4ee0634d31e9c0f7d664cd93bb1a1d97c008acf7",
+    "username": "vanshika",
+    "password": "$2b$10$rSu.K9lBoRSA3p1vhOs8MOqTh8Qb.CeDRZoUIf6m6ssqsC9Zf3HM6",
     "email": "mahak25024@cqst.in"
+  },
+  {
+    "username": "Mahak_Singla",
+    "password": "$2b$10$TGSIBhy81TgEFEwTurqsCuWFdAREgfH83uWiitL9DpTbP5bSB.O.y",
+    "email": "mahak98120@gmail.com"
   }
 ]

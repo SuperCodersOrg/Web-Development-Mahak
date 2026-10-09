@@ -7,7 +7,12 @@
 </head>
 <body>
      <h2>Signup Page</h2>
-    <form method="POST" action = "/signin">
+     <script>
+    let id = "<%= id %>";
+</script>
+
+    <form method="POST" action = "/signin/<%= id %>">
+
         <input placeholder="Username" name="username"/>
         <input placeholder="password" name="password" type="password"/>
         <input placeholder="Email" name="email" type="email"/>

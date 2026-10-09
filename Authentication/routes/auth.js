@@ -7,7 +7,7 @@ const SecretKey = 'Mahak';
 const TokenCookie = 'token';
 const router = express.Router();
 const crypto = require('crypto');
-
+const bcrypt = require('bcrypt');
 
 function createToken(user) {
     return jwt.sign({
@@ -24,9 +24,9 @@ function setTokenCookie(res, token) {
 }
 
 let verificationTokens = [];
-let ourEmail = "mahak25024@cqst.in";
-let pass = "";
 
+let ourEmail = "mahak0506060@gmail.com";
+let pass = "ktfg mlgi lkis djbx"
 let users = JSON.parse(fs.readFileSync('./data/user.json'));
 
 router.get('/verify', (req, res) => {
@@ -36,41 +36,51 @@ router.get('/verify', (req, res) => {
 router.post('/verify', (req, res) => {
     let { email } = req.body;
     const token = crypto.randomBytes(20).toString('hex');
-    // token.expiresIn = Date.now()+60*15*1000;
     const verification = {
         email: email,
         token: token,
         expiresAt: Date.now() + 15 * 60 * 1000
     };
 
+
     verificationTokens.push(verification);
+    console.log("verification",verification);
+    console.log("Token verifinaction",verificationTokens);
+
     const signinLink = `http://localhost:3300/signin/${token}`;
 
     const transporter = nodemailer.createTransport({
-            service: 'gmail',
-            auth: { user: ourEmail, pass: pass }
-        });
-    
-        transporter.sendMail({
-            from: ourEmail,
-            to: email,
-            subject: 'Verify yourself',
-            html: `<p>You requested a signin request. Click <a href="${signinLink}">here</a> to signin. Link expires in 15 minutes.</p>`
-        }, (error, info) => {
-            console.log("Email sent successfully");
-            if (error) {
-                console.error(error);
-                res.status(500).send('Error sending email');
-            } else {
-                console.log(info);
-                res.send(`Password reset link has been sent to ${email}`);
-            }
-        });
+        service: 'gmail',
+        auth: {
+            user: ourEmail,
+            pass: pass
+        }
+    });
+
+
+    transporter.sendMail({
+        from: ourEmail,
+        to: email,
+        subject: 'Verify yourself',
+        html: `<p>You requested a signin request.
+    Click <a href="${signinLink}">here</a> to signin.
+    Link expires in 15 minutes.</p>`
+    }, (error, info) => {
+        if (error) {
+            console.error("Email sending failed:", error);
+            return res.status(500).send("Error sending email");
+        }
+
+        console.log("Email sent successfully:");
+        res.send(`Signin link has been sent to ${email}`);
+    });
+
 });
 
 router.get('/signin/:id', (req, res) => {
-
-    res.render('signin');
+    res.render('signin', {
+        id: req.params.id
+    });
 });
 
 router.post('/signin/:id', (req, res) => {
@@ -80,50 +90,91 @@ router.post('/signin/:id', (req, res) => {
         v => v.token === req.params.id
     );
 
-    if (!verification || verification.expiresAt < Date.now() || verification.email !== email) {
-        return res.status(400).send("Invalid verification token");
+    if (!verification) {
+        return res.status(400).send("Token not found");
     }
-    let pass = crypto.randomBytes(20).toString('hex');
-    password = pass;
-    let user = users.find(u => u.username === username && u.password === password && u.email === email);
-    if (!user) {
 
-        if (!username || !password || !email) {
-            return res.send("Please enter all fields");
+    if (verification.expiresAt < Date.now()) {
+        return res.status(400).send("Token expired");
+    }
+
+    if (verification.email !== email) {
+        return res.status(400).send("Email does not match");
+    }
+
+    if (!username || !password || !email) {
+        return res.send("Please enter all fields");
+    }
+
+    let user = users.find(
+        u => u.username === username || u.email === email
+    );
+
+    if (user) {
+        return res.status(400).send("User already exists");
+    }
+
+    bcrypt.hash(password, 10, (err, hash) => {
+
+        if (err) {
+            return res.status(500).send("Error hashing password");
         }
-        users.push({ username, password, email });
+
+        users.push({
+            username: username,
+            password: hash,
+            email: email
+        });
+
         const newUser = users[users.length - 1];
+
         const token = createToken(newUser);
+
         setTokenCookie(res, token);
-    }
 
-    fs.writeFileSync('./data/user.json', JSON.stringify(users, null, 2));
-    res.render('dashboard', {
-        username: username,
-        email: email
+        fs.writeFileSync('./data/user.json', JSON.stringify(users, null, 2));
+
+        res.render('dashboard', {
+            username: username,
+            email: email
+        });
     });
-
 });
 
 router.get('/login', (req, res) => {
     res.render('login');
 });
+
 router.post('/login', (req, res) => {
     let { username, password } = req.body;
-    let pass = crypto.randomBytes(20).toString('hex');
-    password = pass;
-    const user = users.find(u => u.username === username && u.password === password);
+
+    const user = users.find(
+        u => u.username === username
+    );
+
     if (!user) {
         return res.status(401).send('Invalid credentials');
-    } else {
+    }
+
+    bcrypt.compare(password, user.password, (err, result) => {
+
+        if (err) {
+            return res.status(500).send('Error checking password');
+        }
+
+        if (!result) {
+            return res.status(401).send('Invalid credentials');
+        }
+
         const token = createToken(user);
+
         setTokenCookie(res, token);
+
         res.render('dashboard', {
             username: user.username,
             email: user.email
         });
-    }
-
+    });
 });
 
 module.exports = router;
