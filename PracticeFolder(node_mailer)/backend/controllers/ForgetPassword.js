@@ -7,6 +7,8 @@ require('dotenv').config();
 
 const ourEmail = process.env.EMAIL || 'mahak98120@gmail.com';
 const password = process.env.PASSWORD;
+console.log(ourEmail);
+console.log(password);
 
 let forgetGet = (req, res) => {
     res.render('forget');
