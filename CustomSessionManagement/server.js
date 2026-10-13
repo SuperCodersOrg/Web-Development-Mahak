@@ -1,6 +1,8 @@
 const express = require('express');
-const app = express();
 let post = 3000;
+
+const app = express();
+app.use(express.json());
 
 let sessionData = {
 
