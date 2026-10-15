@@ -108,8 +108,9 @@ app.post('/profile',fileupload.single('imageFile'),(req,res)=>{
     console.log(req.file);
     console.log(req.body);
 
-    res.render('index',{
-        uploadedfile : req.file.filename
+    res.render('profile',{
+        uploadedfile : req.file.filename,
+        username : req.body.username
     });
 })
 

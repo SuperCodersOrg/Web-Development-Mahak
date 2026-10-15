@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <h1>
+        Profile page
+    </h1>
+    <hr>
+    <% if (uploadedfile) { %>
+        <div>
+            <img src="/userFiles/<%= uploadedfile %>" alt="This is an image you have selected" height="100px"
+                width="100px">
+        </div>
+        <div>
+            <b>
+                <%= username %>
+            </b>
+        </div>
+        <% } else{ %>
+
+            <div>
+                <h1>Select an image!</h1>
+                <h3>You have not selected any image </h3>
+            </div>
+
+            <% } %>
+
+
+                <hr>
+                <form action="http://localhost:3300">
+                    <button>Change profile image</button>
+                </form>
+</body>
+
+</html>
