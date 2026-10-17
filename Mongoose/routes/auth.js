@@ -1,16 +1,13 @@
-const router = express.router();
-const userSchema = require('../models/user');
+const express = require('express');
+const router = express.Router();
+// const user = require('../models/user');
+const User = require('../models/user');
+const SignInPost = require('../controllers/authController');
 
 router.get('/',(req,res)=>{
-    res.render('home_page');
+    res.render('home_page',{error : ''});
 })
 
-router.post('/dashboard',(req,res)=>{
-    const {username , email, password} = req.body;
+router.post('/dashboard',SignInPost);
 
-    // await userSchema.find({email});
-    // userSchema.create{name,email,password};
-
-
-    res.render('')
-})
+module.exports = router;
